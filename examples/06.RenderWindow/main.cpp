@@ -142,7 +142,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(20.0f, 20.0f));
       ImGui::SetNextWindowSize(ImVec2(500.0f, 100.0f));
     }
-    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_None);
     ImGui::Text("Background picture from Manuel Tellur / pixelio.de (Image-ID: 642831)");
     ImGui::Text("Moon (Phobos) texture from http://nasa3d.arc.nasa.gov");
     if (ImGui::Button("Exit", ImVec2(40, 20)))
@@ -158,7 +158,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(300.0f, 200.0f));
       ImGui::SetNextWindowSize(ImVec2(400.0f, 450.0f));
     }
-    ImGui::Begin("Moon Window", NULL, ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Moon Window", NULL, ImGuiWindowFlags_None);
     ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
     ImGui::Image(*pRenderTextureID, ImVec2(384, 300));
     ImGui::BeginGroup();

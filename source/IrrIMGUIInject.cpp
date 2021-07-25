@@ -78,10 +78,9 @@ namespace Inject
     FASSERT(Inject::pIMGUIFactoryFunction);
     FASSERT(pDevice);
 
+    ImGui::CreateContext();
+
     return Inject::pIMGUIFactoryFunction(pDevice, pEventStorage, pSettings);
   }
 
 }
-
-
-

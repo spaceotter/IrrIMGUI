@@ -133,7 +133,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(20.0f, 20.0f));
       ImGui::SetNextWindowSize(ImVec2(500.0f, 150.0f));
     }
-    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_None);
     ImGui::Text("Background picture from Manuel Tellur / pixelio.de (Image-ID: 642831)");
     ImGui::Text("Moon (Phobos) texture from http://nasa3d.arc.nasa.gov");
     ImGui::Text("Soyuz image from https://pixabay.com (ID: 67718)");
@@ -154,7 +154,7 @@ void runScene(void)
     /// **********************************************************************
     /// Step 4 - Use ImGui::Image(...) to show an image from a texture ID
     /// **********************************************************************
-    ImGui::Begin("Chose your favorite Spaceship!", NULL, ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Chose your favorite Spaceship!", NULL, ImGuiWindowFlags_None);
     ImGui::BeginGroup();
     ImGui::SetCursorPosY(ImGui::GetCursorPosY()+60.0f);
     ImGui::RadioButton("#1", &SpaceShip, 0);
@@ -175,7 +175,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(600.0f, 50.0f));
       ImGui::SetNextWindowSize(ImVec2(300.0f, 250.0f));
     }
-    ImGui::Begin("Selection", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Selection", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
     ImGui::SetCursorPosX(ImGui::GetCursorPosX()+42.5f);
     switch(SpaceShip)
     {

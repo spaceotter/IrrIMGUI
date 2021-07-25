@@ -160,7 +160,10 @@ namespace IrrIMGUI
       virtual ImWchar const * getGlyphRangesJapanese(void) = 0;
 
       /// @return Returns the Japanese + full set of about 21000 CJK Unified Ideographs
-      virtual ImWchar const * getGlyphRangesChinese(void) = 0;
+      virtual ImWchar const * getGlyphRangesChineseFull(void) = 0;
+
+      /// @return Returns the Japanese + full set of about 21000 CJK Unified Ideographs
+      virtual ImWchar const * getGlyphRangesChineseSimplifiedCommon(void) = 0;
 
       /// @return Default + about 400 Cyrillic characters
       virtual ImWchar const * getGlyphRangesCyrillic(void) = 0;
@@ -216,4 +219,3 @@ namespace IrrIMGUI
  */
 
 #endif /* IRRIMGUI_INCLUDE_IRRIMGUI_CIMGUIHANDLE_H_ */
-

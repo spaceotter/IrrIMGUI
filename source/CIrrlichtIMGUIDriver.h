@@ -74,19 +74,11 @@ namespace Driver
       /// @}
 
       /// @{
-      /// @name Methods used for setup.
-
-      /// @brief Setups the IMGUI function pointer.
-      void setupFunctionPointer(void);
-
-      /// @}
-
-      /// @{
       /// @name Methods used for rendering.
 
       /// @brief Renders a full IMGUI draw list (called by the IMGUI system).
       /// @param pDrawData is a list of data to draw.
-      static void drawGUIList(ImDrawData * pDrawData);
+      virtual void drawGUIList(ImDrawData * pDrawData) override;
 
       /// @brief Renders a single command list.
       /// @param pCommandList is the list of commands to render.
@@ -103,21 +95,21 @@ namespace Driver
       /// @param Width       Is the number of Pixels in X direction.
       /// @param Height      Is the number of Pixels in Y direction.
       /// @return Returns an GUI texture object.
-      virtual IGUITexture *createTexture(EColorFormat ColorFormat, irr::u8 * pPixelData, irr::u32 Width, irr::u32 Height);
+      virtual IGUITexture *createTexture(EColorFormat ColorFormat, irr::u8 * pPixelData, irr::u32 Width, irr::u32 Height) override;
 
       /// @brief Creates a GUI texture object out of an Irrlicht image.
       /// @param pImage Is a pointer to an Irrlicht image object.
       /// @return Returns an GUI texture object.
-      virtual IGUITexture *createTexture(irr::video::IImage * pImage);
+      virtual IGUITexture *createTexture(irr::video::IImage * pImage) override;
 
       /// @brief Creates a GUI texture object out of an Irrlicht texture.
       /// @param pTexture Is a pointer to an Irrlicht texture object.
       /// @return Returns an GUI texture object.
-      virtual IGUITexture *createTexture(irr::video::ITexture * pTexture);
+      virtual IGUITexture *createTexture(irr::video::ITexture * pTexture) override;
 
       /// @brief Creates a GUI texture out of the currently loaded fonts.
       /// @return Returns an GUI texture object.
-      virtual IGUITexture *createFontTexture(void);
+      virtual IGUITexture *createFontTexture(void) override;
 
       /// @brief Updates a GUI texture object with raw data.
       /// @param pGUITexture Is a pointer to the GUI texture object.
@@ -125,27 +117,27 @@ namespace Driver
       /// @param pPixelData  Is a pointer to the pixel array.
       /// @param Width       Is the number of Pixels in X direction.
       /// @param Height      Is the number of Pixels in Y direction.
-      virtual void updateTexture(IGUITexture * pGUITexture, EColorFormat ColorFormat, irr::u8 * pPixelData, irr::u32 Width, irr::u32 Height);
+      virtual void updateTexture(IGUITexture * pGUITexture, EColorFormat ColorFormat, irr::u8 * pPixelData, irr::u32 Width, irr::u32 Height) override;
 
       /// @brief Updates a GUI texture object with an Irrlicht image.
       /// @param pGUITexture Is a pointer to the GUI texture object.
       /// @param pImage      Is a pointer to an Irrlicht image object.
-      virtual void updateTexture(IGUITexture * pGUITexture, irr::video::IImage * pImage);
+      virtual void updateTexture(IGUITexture * pGUITexture, irr::video::IImage * pImage) override;
 
       /// @brief Updates a GUI texture object with an Irrlicht texture.
       /// @param pGUITexture Is a pointer to the GUI texture object.
       /// @param pTexture    Is a pointer to an Irrlicht image object.
-      virtual void updateTexture(IGUITexture * pGUITexture, irr::video::ITexture * pTexture);
+      virtual void updateTexture(IGUITexture * pGUITexture, irr::video::ITexture * pTexture) override;
 
       /// @brief Updates a GUI texture with the currently loaded fonts.
       /// @param pGUITexture Is a pointer to the GUI texture object.
-      virtual void updateFontTexture(IGUITexture * pGUITexture);
+      virtual void updateFontTexture(IGUITexture * pGUITexture) override;
 
       /**
        * @brief Deletes an texture from graphic memory.
        * @param pGUITexture Is a pointer to the texture to delete. Do not use it afterwards!
        */
-      virtual void deleteTexture(IGUITexture * pGUITexture);
+      virtual void deleteTexture(IGUITexture * pGUITexture) override;
 
       /// @}
 

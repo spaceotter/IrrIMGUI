@@ -22,8 +22,8 @@
 # SOFTWARE.
 #
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-cmake_policy(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
+cmake_policy(VERSION 3.20)
 
 message(STATUS " -> Configure all examples:")
 
@@ -38,4 +38,3 @@ ADD_SUBDIRECTORY(06.RenderWindow)
 ADD_SUBDIRECTORY(Demo)
 
 message(STATUS " ")
-

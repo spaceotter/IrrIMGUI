@@ -92,6 +92,7 @@ namespace Private
   {
 
     ImGui::Render();
+    mpGUIDriver->drawGUIList(ImGui::GetDrawData());
     return;
   }
 
@@ -170,9 +171,14 @@ namespace Private
     return ImGui::GetIO().Fonts->GetGlyphRangesJapanese();
   }
 
-  ImWchar const * CIMGUIHandle::getGlyphRangesChinese(void)
+  ImWchar const * CIMGUIHandle::getGlyphRangesChineseSimplifiedCommon(void)
   {
-    return ImGui::GetIO().Fonts->GetGlyphRangesChinese();
+    return ImGui::GetIO().Fonts->GetGlyphRangesChineseSimplifiedCommon();
+  }
+
+  ImWchar const * CIMGUIHandle::getGlyphRangesChineseFull(void)
+  {
+    return ImGui::GetIO().Fonts->GetGlyphRangesChineseFull();
   }
 
   ImWchar const * CIMGUIHandle::getGlyphRangesCyrillic(void)
@@ -215,4 +221,3 @@ namespace Private
 /**
  * @}
  */
-

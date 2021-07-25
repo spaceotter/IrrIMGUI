@@ -127,7 +127,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(20.0f, 20.0f));
       ImGui::SetNextWindowSize(ImVec2(500.0f, 150.0f));
     }
-    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_None);
     ImGui::Text("Background picture from Manuel Tellur / pixelio.de (Image-ID: 642831)");
     ImGui::Text("Moon (Phobos) texture from http://nasa3d.arc.nasa.gov");
     ImGui::Text("Soyuz image from https://pixabay.com (ID: 67718)");
@@ -147,11 +147,11 @@ void runScene(void)
 
     if (HoveredSpaceShip != -1)
     {
-      ImGui::Begin("Available Ships", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_ShowBorders);
+      ImGui::Begin("Available Ships", NULL, ImGuiWindowFlags_NoMove);
     }
     else
     {
-      ImGui::Begin("Available Ships", NULL, ImGuiWindowFlags_ShowBorders);
+      ImGui::Begin("Available Ships", NULL, ImGuiWindowFlags_None);
     }
     ImGui::Text("Drag your favorite");
     ImGui::Text("Space Ship into the");
@@ -192,7 +192,6 @@ void runScene(void)
               ImGuiWindowFlags_NoScrollWithMouse |
               ImGuiWindowFlags_NoCollapse |
               ImGuiWindowFlags_AlwaysAutoResize |
-              ImGuiWindowFlags_ShowBorders |
               ImGuiWindowFlags_NoSavedSettings |
               ImGuiWindowFlags_NoInputs
           );
@@ -209,7 +208,6 @@ void runScene(void)
               ImGuiWindowFlags_NoScrollWithMouse |
               ImGuiWindowFlags_NoCollapse |
               ImGuiWindowFlags_AlwaysAutoResize |
-              ImGuiWindowFlags_ShowBorders |
               ImGuiWindowFlags_NoSavedSettings |
               ImGuiWindowFlags_NoInputs
           );
@@ -226,7 +224,7 @@ void runScene(void)
       ImGui::SetNextWindowPos(ImVec2(600.0f, 50.0f));
       ImGui::SetNextWindowSize(ImVec2(300.0f, 250.0f));
     }
-    ImGui::Begin("Selection", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_ShowBorders);
+    ImGui::Begin("Selection", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
     if (!ImGui::IsMouseDragging(0))
     {

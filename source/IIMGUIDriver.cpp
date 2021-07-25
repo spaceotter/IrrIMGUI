@@ -87,7 +87,7 @@ namespace Private
     }
 
     ImGui::GetIO().Fonts->Clear();
-    ImGui::Shutdown();
+    ImGui::DestroyContext();
 
     mpDevice->drop();
     return;
@@ -148,11 +148,11 @@ namespace Private
 
       WasDeleted = true;
 
-      if (ImGui::GetIO().MetricsAllocs != 0)
+      if (ImGui::GetIO().MetricsActiveAllocations != 0)
       {
         if (mSettings.mIsIMGUIMemoryAllocationTrackingEnabled)
         {
-          LOG_ERROR("{IrrIMGUI} There are " << std::dec << ImGui::GetIO().MetricsAllocs << " allocated memory blocks that have not been deallocated so far!" << std::endl);
+          LOG_ERROR("{IrrIMGUI} There are " << std::dec << ImGui::GetIO().MetricsActiveAllocations << " allocated memory blocks that have not been deallocated so far!" << std::endl);
         }
       }
     }
@@ -273,4 +273,3 @@ namespace Private
 /**
  * @}
  */
-

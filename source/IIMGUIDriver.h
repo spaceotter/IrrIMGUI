@@ -111,6 +111,10 @@ namespace Private
       /// @{
       /// @name Image, Texture and Font related methods
 
+      /// @brief Renders a full IMGUI draw list (called by the IMGUI system).
+      /// @param pDrawData is a list of data to draw.
+      virtual void drawGUIList(ImDrawData * pDrawData) = 0;
+
       /// @brief Creates a GUI texture object out of raw data.
       /// @param ColorFormat Is the format of the Color of every Pixel.
       /// @param pPixelData  Is a pointer to the pixel array.

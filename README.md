@@ -1,7 +1,5 @@
 # Irrlicht Binding for IMGUI
 
-[![Build Status](https://travis-ci.org/ZahlGraf/IrrIMGUI.svg?branch=master)](https://travis-ci.org/ZahlGraf/IrrIMGUI)
-
 **Shortcuts: [[Kanban Board]](https://waffle.io/ZahlGraf/IrrIMGUI) - [[Devlopers Blog]](https://github.com/ZahlGraf/IrrIMGUI/wiki/Developers-Blog) - [[Last Version]](#LatestVersionNews) - [[HowToStart]](#HowToStart)**
 
 **ATTENTION:** The version on the master branch is unstable. For a stable version please look at [Latest Version News](#LatestVersionNews).
@@ -27,11 +25,11 @@ The goal of IrrIMGUI is to provide a render engine for the IMGUI system that wor
 * [Irrlicht](http://irrlicht.sourceforge.net/) is an easy to learn and very fast 3D graphic engine, that supports OpenGL and DirectX.
 * [IMGUI](https://github.com/ocornut/imgui/) is an Immediate Mode GUI system, that allows users to draw complex GUI widgets very easily. Furthermore, I think it has a very nice and modern default graphic style.
 
-Of course IMGUI is not as complex like CEGUI. But for small application it is the ideal solution to have a very potential user interface with just some lines of code. 
+Of course IMGUI is not as complex like CEGUI. But for small application it is the ideal solution to have a very powerful user interface with just some lines of code.
 However if you need a complex user interface with scripted widgets and events, and a highly adaptable template system, you should use CEGUI instead. But take care, you will end up with much more code and dependencies.
 
 Following Features are supported so far:
-* An Irrlicht bases render engine, that uses high level Irrlicht functions to draw the GUI elements.
+* An Irrlicht based render engine, that uses high level Irrlicht functions to draw the GUI elements.
 * A native OpenGL renderer for test purposes and as a fall-back solution.
 * An out of the box working Event Receiver for Irrlicht to bind mouse and keyboard events to the GUI.
 * The input event handling for IMGUI can be easily customized to bind new input devices like joystick and another key-types to the GUI.
@@ -50,8 +48,8 @@ Following Features are supported so far:
 * nothing planned
 
 #### Dependency Versions
-* [IMGUI 1.46](https://github.com/ocornut/imgui/tree/v1.46)
-* [Irrlicht 1.8.3](http://irrlicht.sourceforge.net/2015/09/irrlicht-1-8-3-released/)
+* [IMGUI 1.46](https://github.com/ocornut/imgui) as submodule
+* [Minetest Irrlicht](https://github.com/minetest/irrlicht) to be added prior to this in a parent project
 * Other versions may work as well, but they are not tested.
 
 
@@ -129,15 +127,21 @@ You can also draw a render target texture to the GUI (example program 06.RenderW
 
 ### <a name="HowToStart_Preparations"></a> Preparations
 
-* You need a compiled [Irrlicht](http://irrlicht.sourceforge.net/) library. Please test with the Irrlicht examples, if the library works as expected.
-* Download the Irrlicht IMGUI binding (IrrIMGUI): [Download](#LatestVersionNews)
-* Download the latest version of [IMGUI](https://github.com/ocornut/imgui/) and copy all files from the ZIP into the directory `<IrrIMGUI-Path>/dependency/IMGUI`
-  The IrrIMGUI and IMGUI files are compiled together to a single shared or static library file. 
-* When you want to compile IrrIMGUI as library, you need [CMake](http://www.cmake.org/) to generate the makefiles or project file you want to use
+* git clone https://github.com/minetest/irrlicht
+* git clone --recursive https://github.com/spaceotter/IrrIMGUI
+* In your CMakeLists.txt,
+
+``` cmake
+add_subdirectory(irrlicht)
+set(IRRIMGUI_STATIC_LIBRARY ON)
+add_subdirectory(IrrIMGUI)
+```
+
+* Link the `IrrIMGUI` target to your project.
 
 ### <a name="HowToStart_ApplicationEmbedded"></a> Possibility 1: Embed IrrIMGUI into your Application
 
-There are two ways how you can use IrrIMGUI. The first way is to embed all source files into your application and build it together with your project. 
+There are two ways how you can use IrrIMGUI. The first way is to embed all source files into your application and build it together with your project.
 * For this you simply need to create the following directory structure in your project:
 
 ```
@@ -164,7 +168,7 @@ There are two ways how you can use IrrIMGUI. The first way is to embed all sourc
 * Setup the following preprocessor defines if you want:
 
  * `_IRRIMGUI_NATIVE_OPENGL_` to use the native OpenGL driver instead of the Irrlicht driver (test and fall-back solution)
- 
+
  * `_IRRIMGUI_FAST_OPENGL_TEXTURE_HANDLE_` to use in the native OpenGL driver a dirty but very fast hack to determine the OpenGL texture ID from an ITexture object (this feature might be broken for other Irrlicht versions than the tested one)
 
 ### <a name="HowToStart_BuildTheLibrary"></a> Possibility 2: Build the Library
@@ -180,54 +184,54 @@ how to build a library with CMake.
 * At top of the CMake GUI window you can enter two paths "Where is the source code" and "Where to build the binary"
 
  * Enter in the first text field "Where is the source code" the path to the IrrIMGUI library (the root directory of this library where also CMakeLists.txt is located)
- 
- * Enter in the second text field "Where to build the binary" the path where the temporary build files should be stored. For example `<IrrIMGUI-Path>/build/vc64/debug/shared` In this way you can have different build paths for different compilers and build variants. 
 
- 
+ * Enter in the second text field "Where to build the binary" the path where the temporary build files should be stored. For example `<IrrIMGUI-Path>/build/vc64/debug/shared` In this way you can have different build paths for different compilers and build variants.
+
+
 ![CMake after start](Doxygen/Images/CMakeStart.png)
- 
+
 * Now click on "Configure" and select your compiler options:
 
  * For Visual Studio (command line build) select "NMake Makefiles" and "Use default native compilers"
  * For MingW select "MSYS Makefile" and "Use default native compilers"
- * You can also create a Visual Studio or Eclipse Project file to compile the library (I have not tested this so far). 
- 
- 
+ * You can also create a Visual Studio or Eclipse Project file to compile the library (I have not tested this so far).
+
+
 ![CMake Compiler Options](Doxygen/Images/CMakeCompiler.png)
- 
+
 * Click on finish. Now CMake does some analysis of your environment. In the end some red error messages are displayed, since you first need to specify the Irrlicht path.
 
-* All variables that are new are printed with a red background color. Setup at least the following variables: 
+* All variables that are new are printed with a red background color. Setup at least the following variables:
 
  * _CMAKE_BUILD_TYPE_ = [Debug|Release] specify here if you want to build a debug or release library.
- 
+
  * _CMAKE_INSTALL_PREFIX_ = <Install-Path> specify here the path where cmake should copy the compiled files (e.g. `<IrrIMGUI-Path>/install/vc64/debug/shared`).
- 
+
  * _IRRLICHT_BIN_DIR_ = <path-to-irrlicht-shared-lib> specify here the path to the Irrlicht DLL or shared library
- 
+
  * _IRRLICHT_LIB_DIR_ = <path-to-irrlicht-shared-lib> specify here the path to the Irrlicht link library or static library
- 
+
  * _IRRLICHT_INCLUDE_DIR_ = <path-to-irrlicht-shared-lib> specify here the path to the Irrlicht headers
- 
+
 * **(Optional)** Setup the options you need for your individual build:
- * _IRRIMGUI_BUILD_EXAMPLE_ = [On|Off] enable this option to build also the example programs.  
- 
- * _IRRIMGUI_INSTALL_EXAMPLE_SOURCES_ = [On|Off] enable this if you want to copy the source files for the examples also to the binary directory.   
- 
- * _IRRIMGUI_INSTALL_MEDIA_FILES_ = [On|Off] you should enable this, when you want to use the examples out of the box. Otherwise the examples would miss the media files and will not run.  
- 
- * _IRRIMGUI_IRRLICHT_DIRECT_INCLUDES_ = [On|Off] enable this option when you include your Irrlicht headers with `#include <irrlicht.h>` instead of `#include <Irrlicht/irrlicht.h>`  
- 
- * _IRRIMGUI_NATIVE_OPENGL_ = [On|Off] enable this option only for tests or as fallback solution. The native OpenGL renderer is not officially supported.   
- 
+ * _IRRIMGUI_BUILD_EXAMPLE_ = [On|Off] enable this option to build also the example programs.
+
+ * _IRRIMGUI_INSTALL_EXAMPLE_SOURCES_ = [On|Off] enable this if you want to copy the source files for the examples also to the binary directory.
+
+ * _IRRIMGUI_INSTALL_MEDIA_FILES_ = [On|Off] you should enable this, when you want to use the examples out of the box. Otherwise the examples would miss the media files and will not run.
+
+ * _IRRIMGUI_IRRLICHT_DIRECT_INCLUDES_ = [On|Off] enable this option when you include your Irrlicht headers with `#include <irrlicht.h>` instead of `#include <Irrlicht/irrlicht.h>`
+
+ * _IRRIMGUI_NATIVE_OPENGL_ = [On|Off] enable this option only for tests or as fallback solution. The native OpenGL renderer is not officially supported.
+
  * _IRRIMGUI_STATIC_LIBRARY_ = [On|Off] enable this if you want to compile IrrIMGUI as static library. **Attention: In this case you also need a static Irrlicht library!**
-  
-  
+
+
 ![CMake Build Options](Doxygen/Images/CMakeOptions.png)
- 
+
 * Afterwards click again on "Configure". Now all error messages should be gone away. You should also see in the text-output a summary of your build-configuration.
 
-* Click on "Generate" to create the makefiles or project files for your build. 
+* Click on "Generate" to create the makefiles or project files for your build.
 
 * Now you can start you build. Change in the command line to your build directory (the one you specified in the second text file of the CMake GUI e.g. `<IrrIMGUI-Path>/build/vc64/debug/shared`)
 
@@ -235,15 +239,15 @@ how to build a library with CMake.
 
  * Visual Studio: `nmake`
  * MingW: `make`
- 
+
 * **(Optional)** If [Doxygen](http://www.stack.nl/~dimitri/doxygen/) and [DOT/Graphviz](http://www.graphviz.org/) are installed at your computer, you can also build a documentation by:
 
  * Visual Studio: `nmake doc`
  * MingW: `make doc`
- 
+
 * At the end install your library files by:
 
- * Visual Studio: `nmake install` 
+ * Visual Studio: `nmake install`
  * MingW: `make install`
 
 ### <a name="HowToStart_HelloWorldExample"></a> HelloWorld Example
@@ -271,9 +275,9 @@ The full source code can be found in the file [examples/01.HelloWorld/main.cpp](
   IrrlichtParams.Stencilbuffer = true;
   IrrlichtParams.AntiAlias     = 16;
   IrrlichtParams.Vsync         = false;
-  
+
   // Create standard event receiver for the IrrIMGUI
-  CIMGUIEventReceiver EventReceiver;  
+  CIMGUIEventReceiver EventReceiver;
   IrrlichtParams.EventReceiver = &EventReceiver;
 
   // Create Irrlicht device
@@ -287,7 +291,7 @@ The full source code can be found in the file [examples/01.HelloWorld/main.cpp](
   IIMGUIHandle * const pGUI = createIMGUI(pDevice, &EventReceiver);
 ```
 
-* **Draw GUI elements to the screen:** You can create the GUI elements inside the main-loop after calling `pGUI->startGUI();`. This function prepares the GUI for the next frame and passes the state of Mouse and Keyboard to IMGUI. 
+* **Draw GUI elements to the screen:** You can create the GUI elements inside the main-loop after calling `pGUI->startGUI();`. This function prepares the GUI for the next frame and passes the state of Mouse and Keyboard to IMGUI.
  Afterwards you can use the GUI element functions in the namespace `ImGui` to create the elements you need. You must create them inside the main-loop, otherwise you will not see them (see the concept of an immediate mode GUI).
  Before rendering the GUI elements, you first need to render your Irrlicht scene. Otherwise the GUI is behind your scene. Afterwards you can render the GUI with `pGUI->drawAll();`.
  ```cpp
@@ -295,10 +299,10 @@ The full source code can be found in the file [examples/01.HelloWorld/main.cpp](
   video::IVideoDriver * const pDriver = pDevice->getVideoDriver();
 
   // TODO: build your Irrlicht scene here ...
-  
+
   // add camera to the scene
   pSceneManager->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0,0,5));
-   
+
    // Start main loop
   while(pDevice->run())
   {
@@ -316,7 +320,7 @@ The full source code can be found in the file [examples/01.HelloWorld/main.cpp](
 
 	// render your scene
     pSceneManager->drawAll();
-	
+
 	// render the GUI
     pGUI->drawAll();
 
@@ -327,7 +331,7 @@ The full source code can be found in the file [examples/01.HelloWorld/main.cpp](
   pGUI->drop();
   pDevice->drop();
  ```
- 
+
 * Compile and look at your first GUI element<br>
 ![Hello World](https://github.com/ZahlGraf/IrrIMGUI/blob/master/Doxygen/Images/ExampleHelloWorld.png)
 
@@ -338,7 +342,7 @@ You can find further example descriptions inside the [Wiki](https://github.com/Z
 ### <a name="HowToStart_APIDocumentation"></a>API Documentation
 
 A full API description can be found inside the Doxygen [documentation](http://zahlgraf.github.io/IrrIMGUI/).
- 
+
 ## <a name="VersionHistory"></a>Version History
 ### 20.10.2015: Version 0.3.0 ([Download Source](https://github.com/ZahlGraf/IrrIMGUI/archive/v0.3.0.zip)) ([Download Binaries](http://irrimgui.netzeband.eu/binaries/irrimgui_v0.3.0.zip))
 
@@ -351,7 +355,7 @@ A full API description can be found inside the Doxygen [documentation](http://za
 * Added around 60 unit tests for the IrrIMGUI library itself (Unit Test can be build with CMake open `IRRIMGUI_BUIL_UNITTESTS`
 
 #### Fixes
-* Fixed a small memory leak (the font data was not deleted when shutdown IMGUI at the end of application). 
+* Fixed a small memory leak (the font data was not deleted when shutdown IMGUI at the end of application).
 * Fixed several warnings/errors with older Visual Studio Versions, like the unknown "noexcept" keyword (see #2)
 * Include local headers directly (pull request #9)
 
@@ -408,7 +412,7 @@ A full API description can be found inside the Doxygen [documentation](http://za
 * **Note:** The Irrlicht High Level Renderer supports Irrlicht OpenGL and DirectX9 driver. DirectX8 is untested so far and the software render driver are missing necessary features (drawing primitives).
 
 #### Fixes
-* Created GUI Handle object in all examples with `new` to be able to destroy it before Irrlicht Driver is dropped. 
+* Created GUI Handle object in all examples with `new` to be able to destroy it before Irrlicht Driver is dropped.
 * **Attention:** Look at the new examples! Take care, that you destory your GUI Handle object _before_ destroying the Irrlicht Device. Otherwise your application will crash, when IrrIMGUI tries to free-up allocated memory.
 
 #### Dependency Versions
@@ -482,6 +486,3 @@ A full API description can be found inside the Doxygen [documentation](http://za
 * GCC (64bit, Linux): debug, shared library
 * GCC (64bit, Linux): release, static library
 * GCC (64bit, Linux): release, shared library
-
-
-

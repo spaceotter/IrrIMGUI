@@ -128,8 +128,6 @@ namespace IrrlichtHelper
   CIrrlichtIMGUIDriver::CIrrlichtIMGUIDriver(irr::IrrlichtDevice * const pDevice):
     IIMGUIDriver(pDevice)
   {
-    setupFunctionPointer();
-
     irr::video::IVideoDriver * pDriver = pDevice->getVideoDriver();
     irr::video::E_DRIVER_TYPE Type = pDriver->getDriverType();
 
@@ -142,7 +140,6 @@ namespace IrrlichtHelper
         break;
 
       case irr::video::EDT_DIRECT3D9:
-      case irr::video::EDT_DIRECT3D8:
         mOffset = irr::core::vector3df(0.0f, 0.0f, 0.0f);
         IrrlichtHelper::IsTrilinearFilterEnabled = true;
         LOG_NOTE("{IrrIMGUI-Irr} Start Irrlicht High Level GUI renderer in DirectX mode.\n");
@@ -165,15 +162,6 @@ namespace IrrlichtHelper
 
   CIrrlichtIMGUIDriver::~CIrrlichtIMGUIDriver(void)
   {
-    return;
-  }
-
-  void CIrrlichtIMGUIDriver::setupFunctionPointer(void)
-  {
-    ImGuiIO &rGUIIO  = ImGui::GetIO();
-
-    rGUIIO.RenderDrawListsFn = CIrrlichtIMGUIDriver::drawGUIList;
-
     return;
   }
 
@@ -738,4 +726,3 @@ namespace IrrlichtHelper
 /**
  * @}
  */
-

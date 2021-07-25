@@ -22,19 +22,19 @@
 # SOFTWARE.
 #
 
-cmake_minimum_required(VERSION 2.6)
-cmake_policy(VERSION 2.6)
-	
+cmake_minimum_required(VERSION 3.20)
+cmake_policy(VERSION 3.20)
+
 PROJECT(IrrIMGUI)
 
-SET(CMAKE_MODULE_PATH 
-	${CMAKE_MODULE_PATH} 
-	${CMAKE_SOURCE_DIR}/CMake
-	${CMAKE_SOURCE_DIR}/CMake/Dependencies
-	${CMAKE_SOURCE_DIR}/CMake/Options
-	${CMAKE_SOURCE_DIR}/CMake/Compiler
-	${CMAKE_SOURCE_DIR}/CMake/Packages
-	${CMAKE_SOURCE_DIR}/CMake/OperationSystems
+SET(CMAKE_MODULE_PATH
+	${CMAKE_MODULE_PATH}
+	${PROJECT_SOURCE_DIR}/CMake
+	${PROJECT_SOURCE_DIR}/CMake/Dependencies
+	${PROJECT_SOURCE_DIR}/CMake/Options
+	${PROJECT_SOURCE_DIR}/CMake/Compiler
+	${PROJECT_SOURCE_DIR}/CMake/Packages
+	${PROJECT_SOURCE_DIR}/CMake/OperationSystems
 )
 
 # Contains a list of source files...
@@ -61,7 +61,13 @@ INCLUDE(OptionUnitTests)
 
 # Dependency related settings
 INCLUDE(DependencyIMGUI)
-INCLUDE(DependencyIrrlicht)
+if (TARGET IrrlichtMt)
+    SET (IRRLICHT_FOUND TRUE)
+    set(IRRIMGUI_DEPENDENCY_LIBRARIES IrrlichtMt)
+else()
+    message(SEND_ERROR "Target IrrlichtMt not created")
+    SET (IRRLICHT_FOUND FALSE)
+endif()
 INCLUDE(DependencyOpenGL)
 INCLUDE(DependencyDirectX9)
 INCLUDE(DependencyDoxygen)
@@ -86,7 +92,7 @@ SET(ALL_SOURCE_FILES
 # Target settings
 SET_SOURCE_FILES_PROPERTIES(ALL_HEADER_FILES
                             PROPERTIES HEADER_FILE_ONLY TRUE)
-							
+
 LIST(APPEND ALL_SOURCE_FILES ${ALL_HEADER_FILES})
 
 # Cache back the flags (seems to be an error of cmake for msys makefile generator)
@@ -102,11 +108,11 @@ if (IRRIMGUI_STATIC_LIBRARY)
 	ADD_LIBRARY (IrrIMGUI ${ALL_SOURCE_FILES} )
 else ()
 	ADD_LIBRARY (IrrIMGUI SHARED ${ALL_SOURCE_FILES} )
-	SET_TARGET_PROPERTIES(IrrIMGUI PROPERTIES COMPILE_DEFINITIONS "_IRRIMGUI_EXPORTS_;${IMGUI_API_VALUE};IRRLICHT_EXPORTS=1" )	
+	SET_TARGET_PROPERTIES(IrrIMGUI PROPERTIES COMPILE_DEFINITIONS "_IRRIMGUI_EXPORTS_;${IMGUI_API_VALUE};IRRLICHT_EXPORTS=1" )
 endif ()
 SET_TARGET_PROPERTIES(IrrIMGUI PROPERTIES VERSION ${VERSION_STRING} SOVERSION ${SOVERSION_STRING})
 
-file(WRITE "${CMAKE_BINARY_DIR}/version.txt" "${VERSION_STRING}")
+file(WRITE "${PROJECT_BINARY_DIR}/version.txt" "${VERSION_STRING}")
 
 TARGET_LINK_LIBRARIES(IrrIMGUI ${IRRIMGUI_DEPENDENCY_LIBRARIES} ${OS_DEPENDENT_LIBRARIES})
 
@@ -119,7 +125,7 @@ INSTALL(TARGETS IrrIMGUI
 INSTALL(DIRECTORY "includes" DESTINATION ".")
 INSTALL(DIRECTORY "source/private" DESTINATION "tests/includes")
 INSTALL(FILES ${IMGUI_PUBLIC_HEADER_FILES} DESTINATION "includes/IMGUI")
-INSTALL(FILES ${CMAKE_BINARY_DIR}/version.txt DESTINATION ".")
+INSTALL(FILES ${PROJECT_BINARY_DIR}/version.txt DESTINATION ".")
 
 if (IRRIMGUI_INSTALL_MEDIA_FILES)
 	INSTALL(DIRECTORY ${IRRIMGUI_MEDIA_DIR} DESTINATION  ".")
@@ -132,8 +138,8 @@ if ((IRRIMGUI_BUILD_EXAMPLES) OR (IRRIMGUI_BUILD_UNITTESTS))
 
 	SET(ZZZ_EXAMPLE_SINGLE_COMPILE OFF CACHE BOOL "(Do not set!) If this is enabled, cmake assumes that an example should be compiled for itself (This variable is set automatically, so do not set!).")
 	mark_as_advanced(FORCE ZZZ_EXAMPLE_SINGLE_COMPILE)
-	
-	SET(IRRIMGUI_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include" CACHE PATH "The include directory for IrrIMGUI headers.")
+
+	SET(IRRIMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE PATH "The include directory for IrrIMGUI headers.")
 	mark_as_advanced(FORCE IRRIMGUI_INCLUDE_DIR)
 	SET(IRRIMGUI_LIBRARY     "${CMAKE_CURRENT_BINARY_DIR}/${IRRIMGUI_LIB_FILE}" CACHE FILEPATH "The path to the IrrIMGUI library.")
 	mark_as_advanced(FORCE IRRIMGUI_LIBRARY)
@@ -141,11 +147,11 @@ if ((IRRIMGUI_BUILD_EXAMPLES) OR (IRRIMGUI_BUILD_UNITTESTS))
 		SET(IRRIMGUI_SHARED_BIN  "${CMAKE_CURRENT_BINARY_DIR}/${IRRIMGUI_SHARED_FILE}" CACHE FILEPATH "The path to the IrrIMGUI shared library.")
 		mark_as_advanced(FORCE IRRIMGUI_SHARED_BIN)
 	endif ()
-	
+
 	if (IRRIMGUI_BUILD_EXAMPLES)
 		ADD_SUBDIRECTORY(examples)
 	endif()
-	
+
 	if (IRRIMGUI_BUILD_UNITTESTS)
 		ADD_SUBDIRECTORY(unittests)
 	endif()
@@ -154,4 +160,3 @@ if ((IRRIMGUI_BUILD_EXAMPLES) OR (IRRIMGUI_BUILD_UNITTESTS))
 		message(SEND_ERROR "The variable ZZZ_EXAMPLE_SINGLE_COMPILE must not be set when compiling the IrrIMGUI library!")
 	endif ()
 endif ()
-
