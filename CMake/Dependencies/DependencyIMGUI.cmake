@@ -73,8 +73,3 @@ IF (IRRIMGUI_INSTALL_MEDIA_FILES)
 		ENDIF ()
 	endforeach()
 ENDIF ()
-
-IF (NOT EXISTS "${IMGUI_SOURCE_DIR}/../IMGUI")
-	message(SEND_ERROR "Cannot find directory IMGUI at location '${IMGUI_SOURCE_DIR}/..' . Thus the compiler will not able to include the IMGUI header files. Please install the IMGUI sources and headers in a subdirectory called IMGUI!")
-	SET (IMGUI_FOUND FALSE)
-ENDIF ()

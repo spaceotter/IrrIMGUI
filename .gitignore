@@ -7,7 +7,7 @@
 /dependency/IMGUI/*.h
 install
 build
-Doxygen/html/ 
+Doxygen/html/
 /Doxygen/html
 /compiled/bin
 /compiled/lib
@@ -16,3 +16,7 @@ Doxygen/html/
 /compiled/media
 /release-tools/*
 /release-tools
+
+# IDE
+.kdev4/
+*.kdev4

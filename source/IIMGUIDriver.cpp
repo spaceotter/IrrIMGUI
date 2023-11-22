@@ -131,33 +131,33 @@ namespace Private
 
   bool IIMGUIDriver::deleteInstance(void)
   {
-    bool WasDeleted = false;
+    if (!mpInstance)
+      return false;
 
-    if (mpInstance != nullptr)
+
+    LOG_NOTE("{IrrIMGUI} Delete Singleton Instance of IIMGUIDriver.\n");
+
+    // delete font texture
+    mpInstance->deleteTexture(mpFontTexture);
+    mpFontTexture = nullptr;
+
+    // Must access GetIO before calling ImGui::DestroyContext()
+    if (ImGui::GetIO().MetricsActiveAllocations != 0)
     {
-      LOG_NOTE("{IrrIMGUI} Delete Singleton Instance of IIMGUIDriver.\n");
-
-      // delete font texture
-      mpInstance->deleteTexture(mpFontTexture);
-      mpFontTexture = nullptr;
-
-      // delete instance
-      delete(mpInstance);
-      mpInstance = nullptr;
-      mInstances = 0;
-
-      WasDeleted = true;
-
-      if (ImGui::GetIO().MetricsActiveAllocations != 0)
+      if (mSettings.mIsIMGUIMemoryAllocationTrackingEnabled)
       {
-        if (mSettings.mIsIMGUIMemoryAllocationTrackingEnabled)
-        {
-          LOG_ERROR("{IrrIMGUI} There are " << std::dec << ImGui::GetIO().MetricsActiveAllocations << " allocated memory blocks that have not been deallocated so far!" << std::endl);
-        }
+        LOG_NOTE("{IrrIMGUI} There are " << std::dec <<
+          ImGui::GetIO().MetricsActiveAllocations <<
+          " allocated memory blocks that have not been deallocated so far!" << std::endl);
       }
     }
 
-    return WasDeleted;
+    // delete instance
+    delete(mpInstance);
+    mpInstance = nullptr;
+    mInstances = 0;
+
+    return true;
   }
 
   irr::IrrlichtDevice * IIMGUIDriver::getIrrDevice(void)

@@ -74,21 +74,20 @@ void runScene(void)
   scene::ISceneManager * const pSceneManager = pDevice->getSceneManager();
 
   pDriver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-  irr::scene::ISceneNode * const pSkybox = pSceneManager->addSkyBoxSceneNode(
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"));
+  irr::scene::ISceneNode * const pSkybox = pSceneManager->addBillboardSceneNode(
+      nullptr, core::dimension2df(20.0f, 20.0f));
+
+  pSkybox->getMaterial(0).setTexture(0, pDriver->getTexture("../../media/Background.jpg"));
+  pSkybox->getMaterial(0).Lighting = false;
   pDriver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 
   // Create Planet object
-  scene::IMeshSceneNode * const pMoon = pSceneManager->addSphereSceneNode(5.0f, 128);
+  scene::ISceneNode * const pMoon = pSceneManager->addBillboardSceneNode(
+    nullptr, core::dimension2df(5.0f, 5.0f));
   FASSERT(pMoon);
   pMoon->setPosition(irr::core::vector3df(0,0,25));
-  pMoon->setMaterialTexture(0, pDriver->getTexture("../../media/Phobos.jpg"));
-  pMoon->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  pMoon->getMaterial(0).setTexture(0, pDriver->getTexture("../../media/Phobos.jpg"));
+  pMoon->getMaterial(0).Lighting = false;
 
   // Add camera object
   pSceneManager->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0,0,5));
@@ -104,6 +103,7 @@ void runScene(void)
     pDriver->beginScene(true, true, irr::video::SColor(255,100,101,140));
 
     pGUI->startGUI();
+    ImGui::ShowDemoWindow();
     ImGui::Begin("Picture sources", NULL, ImGuiWindowFlags_None);
     ImGui::Text("Background picture from Manuel Tellur / pixelio.de (Image-ID: 642831)");
     ImGui::Text("Moon (Phobos) texture from http://nasa3d.arc.nasa.gov");
@@ -131,8 +131,8 @@ void runScene(void)
     if (FPS != LastFPS)
     {
       LastFPS = FPS;
-      core::stringw TempString = L"Hello World, A simple IMGUI example - FPS: ";
-      TempString += LastFPS;
+      std::wstring TempString = L"Hello World, A simple IMGUI example - FPS: ";
+      TempString += std::to_wstring(LastFPS);
       pDevice->setWindowCaption(TempString.c_str());
     }
 
