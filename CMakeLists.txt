@@ -43,13 +43,8 @@ INCLUDE(Version)
 # Contains a list of source files...
 INCLUDE(SourceFiles)
 
-# Compiler dependent settings
-INCLUDE(CompilerMSVCLikeSettings)
-INCLUDE(CompilerGccLikeSettings)
-
 # OS dependent settings
 INCLUDE(WindowsSettings)
-INCLUDE(UnixSettings)
 
 # Option dependent settings
 INCLUDE(OptionStaticLib)
@@ -84,6 +79,8 @@ INCLUDE(DependencyDoxygen)
 
 # Print all settings
 INCLUDE(PrintSettings)
+
+set(CMAKE_CXX_STANDARD 11)
 
 # Collect all source files
 SET(ALL_HEADER_FILES

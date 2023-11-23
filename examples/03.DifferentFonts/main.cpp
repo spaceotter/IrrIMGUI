@@ -73,21 +73,20 @@ void runScene(void)
   scene::ISceneManager * const pSceneManager = pDevice->getSceneManager();
 
   pDriver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-  irr::scene::ISceneNode * const pSkybox = pSceneManager->addSkyBoxSceneNode(
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"),
-      pDriver->getTexture("../../media/Background.jpg"));
+  irr::scene::ISceneNode * const pSkybox = pSceneManager->addBillboardSceneNode(
+      nullptr, core::dimension2df(20.0f, 20.0f));
+
+  pSkybox->getMaterial(0).setTexture(0, pDriver->getTexture("../../media/Background.jpg"));
+  pSkybox->getMaterial(0).Lighting = false;
   pDriver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 
   // Create Planet object
-  scene::IMeshSceneNode * const pMoon = pSceneManager->addSphereSceneNode(5.0f, 128);
+  scene::ISceneNode * const pMoon = pSceneManager->addBillboardSceneNode(
+    nullptr, core::dimension2df(5.0f, 5.0f));
   FASSERT(pMoon);
   pMoon->setPosition(irr::core::vector3df(0,0,25));
-  pMoon->setMaterialTexture(0, pDriver->getTexture("../../media/Phobos.jpg"));
-  pMoon->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+  pMoon->getMaterial(0).setTexture(0, pDriver->getTexture("../../media/Phobos.jpg"));
+  pMoon->getMaterial(0).Lighting = false;
 
   // Add camera object
   pSceneManager->addCameraSceneNode(0, core::vector3df(0, 0, 0), core::vector3df(0,0,5));
@@ -101,14 +100,15 @@ void runScene(void)
   /// **********************************************************************
   /// Step 1 - Create handles to the fonts by loading them into GUI memory
   /// **********************************************************************
-  ImFont *pCousine16   = pGUI->addFontFromFileTTF("../../media/Cousine-Regular.ttf", 16.0f);
-  ImFont *pCousine24   = pGUI->addFontFromFileTTF("../../media/Cousine-Regular.ttf", 24.0f);
-  ImFont *pDroidSans16 = pGUI->addFontFromFileTTF("../../media/DroidSans.ttf",       16.0f);
-  ImFont *pDroidSans24 = pGUI->addFontFromFileTTF("../../media/DroidSans.ttf",       24.0f);
-  ImFont *pKarla16     = pGUI->addFontFromFileTTF("../../media/Karla-Regular.ttf",   16.0f);
-  ImFont *pKarla24     = pGUI->addFontFromFileTTF("../../media/Karla-Regular.ttf",   24.0f);
-  ImFont *pProggy16    = pGUI->addFontFromFileTTF("../../media/ProggyClean.ttf",     16.0f);
-  ImFont *pProggy24    = pGUI->addFontFromFileTTF("../../media/ProggyClean.ttf",     24.0f);
+  std::string font_path = "."; //"../../media";
+  ImFont *pCousine16   = pGUI->addFontFromFileTTF((font_path + "/Cousine-Regular.ttf").c_str(), 16.0f);
+  ImFont *pCousine24   = pGUI->addFontFromFileTTF((font_path + "/Cousine-Regular.ttf").c_str(), 24.0f);
+  ImFont *pDroidSans16 = pGUI->addFontFromFileTTF((font_path + "/DroidSans.ttf").c_str(),       16.0f);
+  ImFont *pDroidSans24 = pGUI->addFontFromFileTTF((font_path + "/DroidSans.ttf").c_str(),       24.0f);
+  ImFont *pKarla16     = pGUI->addFontFromFileTTF((font_path + "/Karla-Regular.ttf").c_str(),   16.0f);
+  ImFont *pKarla24     = pGUI->addFontFromFileTTF((font_path + "/Karla-Regular.ttf").c_str(),   24.0f);
+  ImFont *pProggy16    = pGUI->addFontFromFileTTF((font_path + "/ProggyClean.ttf").c_str(),     16.0f);
+  ImFont *pProggy24    = pGUI->addFontFromFileTTF((font_path + "/ProggyClean.ttf").c_str(),     24.0f);
 
   /// **********************************************************************
   /// Step 2 - Compile all loaded fonts to a single texture and load it to the GPU memory
@@ -194,8 +194,8 @@ void runScene(void)
     if (FPS != LastFPS)
     {
       LastFPS = FPS;
-      core::stringw TempString = L"Using different fonts with IMGUI - FPS: ";
-      TempString += LastFPS;
+      std::wstring TempString = L"Using different fonts with IMGUI - FPS: ";
+      TempString += std::to_wstring(LastFPS);
       pDevice->setWindowCaption(TempString.c_str());
     }
 

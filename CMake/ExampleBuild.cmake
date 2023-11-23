@@ -75,7 +75,6 @@ FUNCTION(BUILD_APP_GENERIC APP_NAME APP_SOURCE_FILES APP_HEADER_FILES APP_INSTAL
 	if (ZZZ_EXAMPLE_SINGLE_COMPILE)
 	
 		# Compiler dependent settings
-		INCLUDE(CompilerMSVCLikeSettings)
 		INCLUDE(CompilerGccLikeSettings)
 
 		# OS dependent settings
@@ -92,7 +91,6 @@ FUNCTION(BUILD_APP_GENERIC APP_NAME APP_SOURCE_FILES APP_HEADER_FILES APP_INSTAL
 		# Dependency related settings
 		INCLUDE(DependencyIrrlicht)
 		INCLUDE(DependencyOpenGL)
-		INCLUDE(DependencyDirectX9)
 		INCLUDE(DependencyDoxygen)
 		INCLUDE(DependencyX11)
 
