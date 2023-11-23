@@ -31,9 +31,9 @@
 #ifndef IRRIMGUI_INCLUDE_IRRIMGUI_CIMGUIEVENTSTORAGE_H_
 #define IRRIMGUI_INCLUDE_IRRIMGUI_CIMGUIEVENTSTORAGE_H_
 
-// module includes
-#include "CCharFifo.h"
 #include "IrrIMGUIConfig.h"
+#include <queue>
+#include "irrTypes.h"
 
 /**
  * @addtogroup IrrIMGUI
@@ -121,7 +121,7 @@ namespace IrrIMGUI
       /// @{
       /// @name Memory for all character keys
 
-      CCharFifo mCharFifo;
+      std::queue<wchar_t> mCharFifo;
 
       /// @}
 

@@ -184,10 +184,8 @@ namespace IrrIMGUI
 
       if ((rEvent.KeyInput.Char > 0) && IsKeyPressedDown)
       {
-        if (!mCharFifo.isFull())
-        {
-          mCharFifo.addChar(rEvent.KeyInput.Char);
-        }
+        if (mCharFifo.size() < 10)
+          mCharFifo.push(rEvent.KeyInput.Char);
       }
     }
 
