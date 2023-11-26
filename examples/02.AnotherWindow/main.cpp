@@ -174,7 +174,7 @@ void runScene(void)
     if (FPS != LastFPS)
     {
       LastFPS = FPS;
-      core::stringw TempString = L"Some control inputs in IMGUI - FPS: ";
+      std::wstring TempString = L"Some control inputs in IMGUI - FPS: ";
       TempString += LastFPS;
       pDevice->setWindowCaption(TempString.c_str());
     }

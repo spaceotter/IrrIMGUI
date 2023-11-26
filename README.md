@@ -207,6 +207,8 @@ how to build a library with CMake.
 
  * _CMAKE_INSTALL_PREFIX_ = <Install-Path> specify here the path where cmake should copy the compiled files (e.g. `<IrrIMGUI-Path>/install/vc64/debug/shared`).
 
+ * _IRRLICHTMT_BUILD_DIR_ = The path that contains "cmake/IrrlichtMt/IrrlichtMtConfig.cmake"
+
  * _IRRLICHT_BIN_DIR_ = <path-to-irrlicht-shared-lib> specify here the path to the Irrlicht DLL or shared library
 
  * _IRRLICHT_LIB_DIR_ = <path-to-irrlicht-shared-lib> specify here the path to the Irrlicht link library or static library
@@ -219,8 +221,6 @@ how to build a library with CMake.
  * _IRRIMGUI_INSTALL_EXAMPLE_SOURCES_ = [On|Off] enable this if you want to copy the source files for the examples also to the binary directory.
 
  * _IRRIMGUI_INSTALL_MEDIA_FILES_ = [On|Off] you should enable this, when you want to use the examples out of the box. Otherwise the examples would miss the media files and will not run.
-
- * _IRRIMGUI_IRRLICHT_DIRECT_INCLUDES_ = [On|Off] enable this option when you include your Irrlicht headers with `#include <irrlicht.h>` instead of `#include <Irrlicht/irrlicht.h>`
 
  * _IRRIMGUI_NATIVE_OPENGL_ = [On|Off] enable this option only for tests or as fallback solution. The native OpenGL renderer is not officially supported.
 

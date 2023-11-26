@@ -139,12 +139,6 @@ namespace IrrlichtHelper
         LOG_NOTE("{IrrIMGUI-Irr} Start Irrlicht High Level GUI renderer in OpenGL mode.\n");
         break;
 
-      case irr::video::EDT_DIRECT3D9:
-        mOffset = irr::core::vector3df(0.0f, 0.0f, 0.0f);
-        IrrlichtHelper::IsTrilinearFilterEnabled = true;
-        LOG_NOTE("{IrrIMGUI-Irr} Start Irrlicht High Level GUI renderer in DirectX mode.\n");
-        break;
-
       case irr::video::EDT_NULL:
         mOffset = irr::core::vector3df(0.0f, 0.0f, 0.0f);
         IrrlichtHelper::IsTrilinearFilterEnabled = false;
@@ -681,16 +675,25 @@ namespace IrrlichtHelper
   {
     rMaterial.setTexture(0, pTexture);
     rMaterial.MaterialType = irr::video::EMT_ONETEXTURE_BLEND;
-    rMaterial.MaterialTypeParam = irr::video::pack_textureBlendFunc(irr::video::EBF_SRC_ALPHA, irr::video::EBF_ONE_MINUS_SRC_ALPHA, irr::video::EMFN_MODULATE_1X, irr::video::EAS_VERTEX_COLOR | irr::video::EAS_TEXTURE);
-    rMaterial.setFlag(irr::video::EMF_ANTI_ALIASING,      true);
-    rMaterial.setFlag(irr::video::EMF_BILINEAR_FILTER,    false);
-    rMaterial.setFlag(irr::video::EMF_ZBUFFER,            false);
-    rMaterial.setFlag(irr::video::EMF_BLEND_OPERATION,    false);
-    rMaterial.setFlag(irr::video::EMF_BACK_FACE_CULLING,  false);
-    rMaterial.setFlag(irr::video::EMF_FRONT_FACE_CULLING, false);
-    rMaterial.setFlag(irr::video::EMF_ANISOTROPIC_FILTER, false);
-    rMaterial.setFlag(irr::video::EMF_TRILINEAR_FILTER,   IsTrilinearFilterEnabled);
+    rMaterial.MaterialTypeParam = irr::video::pack_textureBlendFunc(
+      irr::video::EBF_SRC_ALPHA, irr::video::EBF_ONE_MINUS_SRC_ALPHA,
+      irr::video::EMFN_MODULATE_1X, irr::video::EAS_VERTEX_COLOR | irr::video::EAS_TEXTURE);
+
+    rMaterial.AntiAliasing = true;
+    rMaterial.ZBuffer = false;
+    rMaterial.BackfaceCulling = false;
+    rMaterial.FrontfaceCulling = false;
+    rMaterial.BlendOperation = irr::video::EBO_NONE;
     rMaterial.UseMipMaps = false;
+    rMaterial.forEachTexture([](irr::video::SMaterialLayer &layer) {
+      // defaults according to constructor
+      layer.AnisotropicFilter = 0;
+      layer.MagFilter = irr::video::ETMAGF_LINEAR;
+      if (IsTrilinearFilterEnabled)
+        layer.MinFilter = irr::video::ETMINF_LINEAR_MIPMAP_LINEAR;
+      else
+        layer.MinFilter = irr::video::ETMINF_LINEAR_MIPMAP_NEAREST;
+    });
 
     return;
   }

@@ -33,7 +33,6 @@ SET (IRRIMGUI_PUBLIC_HEADER_FILES
 	includes/IrrIMGUI/UnitTest/IncludeCppUTest.h
 	includes/IrrIMGUI/UnitTest/MockHelper.h
 	includes/IrrIMGUI/UnitTest/UnitTest.h
-	includes/IrrIMGUI/CCharFifo.h
 	includes/IrrIMGUI/CIMGUIEventReceiver.h
 	includes/IrrIMGUI/CIMGUIEventStorage.h
 	includes/IrrIMGUI/IGUITexture.h
@@ -41,7 +40,6 @@ SET (IRRIMGUI_PUBLIC_HEADER_FILES
 	includes/IrrIMGUI/IMGUIHelper.h
 	includes/IrrIMGUI/IncludeIMGUI.h
 	includes/IrrIMGUI/IncludeIrrlicht.h
-	includes/IrrIMGUI/IReferenceCounter.h
 	includes/IrrIMGUI/IrrIMGUI.h	
 	includes/IrrIMGUI/IrrIMGUIConfig.h
 	includes/IrrIMGUI/IrrIMGUIConstants.h
@@ -62,7 +60,6 @@ SET (IRRIMGUI_PRIVATE_HEADER_FILES
 SET (IRRIMGUI_SOURCE_FILES
 	source/CBasicMemoryLeakDetection.cpp
 	source/CChannelBuffer.cpp
-	source/CCharFifo.cpp
 	source/CGUITexture.cpp
 	source/CIMGUIEventReceiver.cpp
 	source/CIMGUIHandle.cpp
@@ -70,7 +67,6 @@ SET (IRRIMGUI_SOURCE_FILES
 	source/COpenGLIMGUIDriver.cpp
 	source/IIMGUIDriver.cpp
 	source/IMGUIHelper.cpp
-	source/IReferenceCounter.cpp
 	source/IrrIMGUIInject.cpp
 	source/UnitTest.cpp
 )

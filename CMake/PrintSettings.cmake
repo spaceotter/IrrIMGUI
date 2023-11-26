@@ -32,16 +32,8 @@ if (IRRIMGUI_BUILD_EXAMPLES)
 	message(STATUS "    * OpenGL:   ${OPENGL_FOUND}")
 endif ()
 
-if (IRRIMGUI_LINK_TO_DIRECTX)
-	message(STATUS "    * DirectX9: ${DirectX9_FOUND}")
-endif ()
-
 if ((UNIX) OR (APPLE))
 	message(STATUS "    * X11:      ${X11_FOUND}")
-
-	if (IRRIMGUI_BUILD_EXAMPLES)
-		message(STATUS "    * xf86vm:   ${X11_xf86vmode_FOUND}")
-	endif ()
 endif ()
 
 message(STATUS " ")
@@ -58,7 +50,6 @@ message(STATUS "    * Fast OpenGL texture creation: ${IRRIMGUI_FAST_OPENGL_TEXTU
 message(STATUS " ")
 message(STATUS " -> Compiler settings:")
 message(STATUS "    * GCC like compiler:            ${GCC_LIKE_COMPILER}")
-message(STATUS "    * MSVC like compiler:           ${MSVC_LIKE_COMPILER}")
 message(STATUS "    * C++ Compiler flags:           ${CMAKE_CXX_FLAGS}")
 message(STATUS "    * C++ Compiler flags (release): ${CMAKE_CXX_FLAGS_RELEASE}")
 message(STATUS "    * C++ Compiler flags (debug):   ${CMAKE_CXX_FLAGS_DEBUG}")

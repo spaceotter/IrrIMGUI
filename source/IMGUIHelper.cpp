@@ -116,9 +116,11 @@ namespace IrrIMGUI
     rGUIIO.KeyShift                  = pEventStorage->mShiftPressed;
     rGUIIO.KeyAlt                    = pEventStorage->mAltPressed;
 
-    while(!pEventStorage->mCharFifo.isEmpty())
-    {
-      rGUIIO.AddInputCharacter(pEventStorage->mCharFifo.getChar());
+    while (!pEventStorage->mCharFifo.empty()) {
+      wchar_t front = pEventStorage->mCharFifo.front();
+      pEventStorage->mCharFifo.pop();
+
+      rGUIIO.AddInputCharacter(front);
     }
 
     return;

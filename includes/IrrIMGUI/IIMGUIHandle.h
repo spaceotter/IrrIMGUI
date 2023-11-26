@@ -33,8 +33,16 @@
 
 // module includes
 #include "IGUITexture.h"
-#include "IReferenceCounter.h"
+#include "IReferenceCounted.h"
 #include "SIMGUISettings.h"
+
+
+namespace irr {
+  namespace video {
+    class IImage;
+    class ITexture;
+  }
+}
 
 /**
  * @addtogroup IrrIMGUI
@@ -45,7 +53,7 @@ namespace IrrIMGUI
   /**
    * @brief A interface to an IMGUI handle. Use this interface for mocking and dependency injection of the real IMGUI handle.
    */
-  class IIMGUIHandle : public IReferenceCounter
+  class IIMGUIHandle : public irr::IReferenceCounted
   {
     public:
       /// @brief Destructor.

@@ -43,38 +43,44 @@ INCLUDE(Version)
 # Contains a list of source files...
 INCLUDE(SourceFiles)
 
-# Compiler dependent settings
-INCLUDE(CompilerMSVCLikeSettings)
-INCLUDE(CompilerGccLikeSettings)
-
 # OS dependent settings
 INCLUDE(WindowsSettings)
-INCLUDE(UnixSettings)
 
 # Option dependent settings
 INCLUDE(OptionStaticLib)
 INCLUDE(OptionBuildExamples)
 INCLUDE(OptionInstallMediaFiles)
-INCLUDE(OptionIrrlichtDirectIncludes)
 INCLUDE(OptionNativeOpenGL)
 INCLUDE(OptionUnitTests)
 
 # Dependency related settings
 INCLUDE(DependencyIMGUI)
-if (TARGET IrrlichtMt)
-    SET (IRRLICHT_FOUND TRUE)
-    set(IRRIMGUI_DEPENDENCY_LIBRARIES IrrlichtMt)
-else()
-    message(SEND_ERROR "Target IrrlichtMt not created")
-    SET (IRRLICHT_FOUND FALSE)
+
+set(IRRLICHTMT_BUILD_DIR "" CACHE PATH "Path to IrrlichtMt build directory")
+
+# Irrlicht detection code imported from minetest/CMakeLists.cpp, commit 38ba813c by JosiahWI
+find_package(IrrlichtMt QUIET
+	PATHS "${IRRLICHTMT_BUILD_DIR}"
+	NO_DEFAULT_PATH
+)
+
+if(NOT TARGET IrrlichtMt::IrrlichtMt)
+	# find_package() searches certain subdirectories. ${PATH}/cmake is not
+	# the only one, but it is the one where IrrlichtMt is supposed to export
+	# IrrlichtMtConfig.cmake
+	message(FATAL_ERROR "Could not find IrrlichtMtConfig.cmake in ${IRRLICHTMT_BUILD_DIR}/cmake.")
 endif()
+set(IRRIMGUI_DEPENDENCY_LIBRARIES IrrlichtMt::IrrlichtMt)
+get_target_property(IRRLICHT_INCLUDES IrrlichtMt::IrrlichtMt INTERFACE_INCLUDE_DIRECTORIES)
+
 INCLUDE(DependencyOpenGL)
-INCLUDE(DependencyDirectX9)
 INCLUDE(DependencyDoxygen)
-INCLUDE(DependencyX11)
+#INCLUDE(DependencyX11)
 
 # Print all settings
 INCLUDE(PrintSettings)
+
+set(CMAKE_CXX_STANDARD 11)
 
 # Collect all source files
 SET(ALL_HEADER_FILES
@@ -115,8 +121,11 @@ SET_TARGET_PROPERTIES(IrrIMGUI PROPERTIES VERSION ${VERSION_STRING} SOVERSION ${
 file(WRITE "${PROJECT_BINARY_DIR}/version.txt" "${VERSION_STRING}")
 
 TARGET_LINK_LIBRARIES(IrrIMGUI ${IRRIMGUI_DEPENDENCY_LIBRARIES} ${OS_DEPENDENT_LIBRARIES})
-target_include_directories(IrrIMGUI PUBLIC "includes")
-target_include_directories(IrrIMGUI PUBLIC "${IMGUI_SOURCE_DIR}/..")
+target_include_directories(IrrIMGUI
+	PUBLIC "includes"
+	PUBLIC ${IRRLICHT_INCLUDES}
+	PUBLIC "${IMGUI_SOURCE_DIR}"
+)
 
 INSTALL(TARGETS IrrIMGUI
 	ARCHIVE DESTINATION  "lib" CONFIGURATIONS Debug Release MinSizeRel RelWithDebInfo

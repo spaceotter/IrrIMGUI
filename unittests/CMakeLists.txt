@@ -25,8 +25,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 cmake_policy(VERSION 2.6)
 
-SET(CMAKE_MODULE_PATH 
-	${CMAKE_MODULE_PATH} 
+SET(CMAKE_MODULE_PATH
+	${CMAKE_MODULE_PATH}
 	${CMAKE_CURRENT_SOURCE_DIR}/CMake
 	${CMAKE_CURRENT_SOURCE_DIR}/../CMake
 )
@@ -34,7 +34,6 @@ SET(CMAKE_MODULE_PATH
 INCLUDE(ExampleBuild)
 
 SET(EXAMPLE_SOURCE_FILES
-	TestCharFifo.cpp
 	TestEventReceiver.cpp
 	TestHandleMockIMGUIDependency.cpp
 	TestIIMGUIHandleMock.cpp
@@ -42,7 +41,6 @@ SET(EXAMPLE_SOURCE_FILES
 	TestIrrIMGUIDebug.cpp
 	TestIrrIMGUIHandle.cpp
 	TestMemoryLeakDetection.cpp
-	TestReferenceCounter.cpp
 	TestSettings.cpp
 	UnitTestMain.cpp
 )
